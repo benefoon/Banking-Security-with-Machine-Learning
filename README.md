@@ -1,7 +1,6 @@
 # Suspicious Money Flow Analysis
 
 ![Python](https://img.shields.io/badge/Python-3.9-blue.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/username/repo-name/main.yml?label=CI/CD&style=plastic)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-orange)
 
