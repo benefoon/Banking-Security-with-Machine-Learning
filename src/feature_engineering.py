@@ -1,12 +1,13 @@
-def feature_engineering(data):
-    """Create new features for machine learning."""
-    data['hour'] = pd.to_datetime(data['time']).dt.hour  # Extract hour of transaction
-    data['day_of_week'] = pd.to_datetime(data['time']).dt.dayofweek  # Extract day of week
-    data['is_high_amount'] = (data['amount'] > 10000).astype(int)  # Flag high transactions
-    return data
+import numpy as np
 
-# Apply feature engineering
-data = pd.read_csv("data/processed/cleaned_transactions.csv")
-data = feature_engineering(data)
-data.to_csv("data/processed/featured_transactions.csv", index=False)
-print("Feature engineering complete. File saved to 'data/processed/featured_transactions.csv'.")
+def feature_engineering(data):
+    # Example of feature engineering: Creating interaction features
+    data['amount_per_transaction'] = data['transaction_amount'] / (data['transaction_count'] + 1)
+
+    # Example of time-based features (if relevant)
+    data['hour_of_day'] = pd.to_datetime(data['transaction_time']).dt.hour
+
+    # Example of aggregating features
+    data['avg_transaction_amount'] = data.groupby('user_id')['transaction_amount'].transform('mean')
+
+    return data
