@@ -1,24 +1,22 @@
 import joblib
 import pandas as pd
+import os
 
-def detect_anomalies(file_path):
+def detect_anomalies(file_path, model_path, output_path):
+    """Detects anomalies using a pre-trained model and saves the results."""
+    # Validate file paths
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Data file '{file_path}' not found.")
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Model file '{model_path}' not found.")
+
     # Load the trained model
-    model = joblib.load('../models/anomaly_detection_model.pkl')
+    model = joblib.load(model_path)
 
     # Load the data
     data = pd.read_csv(file_path)
+    if 'label' not in data.columns:
+        raise ValueError("Input data must contain a 'label' column.")
     X = data.drop(columns=['label'])
 
-    # Predict anomalies
-    predictions = model.predict(X)
-
-    # Add predictions to the data
-    data['anomaly'] = predictions
-    data['anomaly'] = data['anomaly'].apply(lambda x: 'Anomaly' if x == -1 else 'Normal')
-
-    # Save results
-    data.to_csv('../data/detection_results.csv', index=False)
-    print("Anomaly detection complete. Results saved.")
-
-if __name__ == "__main__":
-    detect_anomalies('../data/sample_data.csv')
+   
